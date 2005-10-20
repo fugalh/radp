@@ -1,0 +1,6 @@
+#! /usr/bin/ruby1.8
+if __FILE__ == $0
+  require 'radp'
+  radp = RADP.new
+  radp.instance_eval ARGF.read
+end

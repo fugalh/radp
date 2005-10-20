@@ -1,5 +1,3 @@
-require 'ostruct'
-
 # Ruby Asterisk Dial Plan
 class RADP
   def initialize(io=$stdout,&block)
@@ -27,10 +25,14 @@ class RADP
     @io.puts "switch => #{name}"
   end
 
-  def method_missing(name,*args)
+  def app(name,*args)
     p = @priority.to_i
-    @io.puts "exten => #{@extension},#{p},#{name}(#{args.join ', '})"
+    @io.puts "exten => #{@extension},#{p},#{name}(#{args.join ','})"
     @priority += 1
     return p
+  end
+
+  def method_missing(name,*args)
+    app(name,args)
   end
 end

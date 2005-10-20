@@ -1,1 +1,42 @@
-See examples/hans.rb
+radp - Ruby Asterisk Dial Plan
+
+Requirements: 
+  - ruby
+
+Installation:
+  rake install ||
+  ruby setup.rb --help | less
+
+Usage:
+  radp extensions.radp > extensions.conf
+  asterisk -x "extensions reload"
+
+Things you should be aware of:
+  - Asterisk dialplans are static, not dynamic. In other words, radp generates
+    a static dialplan. 
+
+  - You can use any capitalization for Asterisk applications that Asterisk
+    would accept, but if you begin an application with a capital letter and the
+    application has no arguments, you must include the parentheses. e.g.
+    Answer()
+
+  - This is not syntactically correct:
+
+      ext 's' { Answer(); Playback(tt-monkeys); Hangup() }
+
+    You must either use do...end or parenthesize the arguments, as in:
+
+      ext('s') { Answer(); Playback(tt-monkeys); Hangup() }
+      ext 's' do Answer(); Playback(tt-monkeys); Hangup(); end
+
+  - Also accepts input on stdin
+
+  - No special processing of arguments is done. In particular, The following
+    produce the same output:
+
+      Dial('ZAP/1,30')
+      Dial('ZAP/1', 30)
+
+
+Copyright (C) 2005  Hans Fugal
+Please read LICENSE
