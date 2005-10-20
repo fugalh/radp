@@ -1,5 +1,3 @@
-require 'radp'
-
 # incoming
 context 'default' do
   includes 'home'
@@ -30,16 +28,16 @@ end
 
 context 'desconocido' do
   ext 's' do 
-      answer
-      wait 1
-      zapateller
-      background('custom/desconocido')
-      waitext 5
-      hangup
+    answer
+    wait 1
+    zapateller
+    background('custom/desconocido')
+    waitext 5
+    hangup
   end
   ext '#' do 
-      voicemail('77&80')
-      hangup
+    voicemail('77&80')
+    hangup
   end
   ext '*' do goto('home','s',1) end
 end
@@ -61,12 +59,12 @@ end
 
 context 'home' do
   ext 's' do
-      dial('SIP/sipura',30)
-      answer
-      wait(1)
-      background('custom/zarvox')
-      voicemail('s77&80')
-      hangup
+    dial('SIP/sipura',30)
+    answer
+    wait(1)
+    background('custom/zarvox')
+    voicemail('s77&80')
+    hangup
   end
   ext 'a' do voicemailmain end
 end
@@ -78,7 +76,7 @@ context 'nufone' do
     n = dial('IAX2/NuFone/1505${ext}')
     congestion
 
-    priority = n+101
+    @priority = n+101
     busy
   end
   ext '_1NXXNXXXXXX' do 
@@ -87,7 +85,7 @@ context 'nufone' do
     n = dial 'IAX2/NuFone/${ext}' 
     congestion
 
-    priority = n+101
+    @priority = n+101
     busy
   end
 end
