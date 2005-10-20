@@ -1,0 +1,31 @@
+## This is an example of a "macro"
+def mydial(*args)
+  n = Dial(args)
+  Congestion()
+  @p = n+101
+  Busy()
+end
+
+context :incoming do
+  ext :s do
+    n = Dial('SIP/sipura',20)
+    Answer()
+    Playback('chunky-bacon')
+    Hangup()
+    @p = n+101
+    Busy()
+  end
+end
+
+context :outgoing do
+  %w{800 866 877 888}.each do |x|
+    ext "_1#{x}NXXXXXX" do
+      mydial('ZAP/1/${EXTEN}')
+    end
+  end
+  ext('_NXXXXXX') { mydial('IAX2/NuFone/1505${EXTEN}') }
+  ext('_1NXXNXXXXXX') { mydial('IAX2/NuFone/1505${EXTEN}') }
+  ext '*' do VoiceMailMain() end
+end
+
+## vim: filetype=ruby

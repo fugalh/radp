@@ -1,42 +1,69 @@
-radp - Ruby Asterisk Dial Plan
+= radp - Ruby Asterisk Dial Plan
+This program/library creates Asterisk dialplans from ruby code.
 
-Requirements: 
-  - ruby
+== Requirements
+- ruby
+- rake (optional)
 
-Installation:
+== Installation
   rake install ||
   ruby setup.rb --help | less
 
-Usage:
+== Usage
   radp extensions.radp > extensions.conf
   asterisk -x "extensions reload"
 
-Things you should be aware of:
-  - Asterisk dialplans are static, not dynamic. In other words, radp generates
-    a static dialplan. 
+== Example
+  :include:examples/simple.radp
 
-  - You can use any capitalization for Asterisk applications that Asterisk
-    would accept, but if you begin an application with a capital letter and the
-    application has no arguments, you must include the parentheses. e.g.
-    Answer()
+== Things you should be aware of
+- Asterisk dialplans are static, not dynamic. In other words, radp generates
+  a static dialplan. 
 
-  - This is not syntactically correct:
+- You can use any capitalization for Asterisk applications that Asterisk
+  would accept, but if you begin an application with a capital letter and the
+  application has no arguments, you must include the parentheses. e.g.
+  Answer()
 
-      ext 's' { Answer(); Playback(tt-monkeys); Hangup() }
+- This is not syntactically correct:
 
-    You must either use do...end or parenthesize the arguments, as in:
+    ext 's' { Answer(); Playback(tt-monkeys); Hangup() }
 
-      ext('s') { Answer(); Playback(tt-monkeys); Hangup() }
-      ext 's' do Answer(); Playback(tt-monkeys); Hangup(); end
+  You must either use do...end or parenthesize the arguments, as in:
 
-  - Also accepts input on stdin
+    ext('s') { Answer(); Playback(tt-monkeys); Hangup() }
+    ext 's' do Answer(); Playback(tt-monkeys); Hangup(); end
 
-  - No special processing of arguments is done. In particular, The following
-    produce the same output:
+- Also accepts input on stdin
 
-      Dial('ZAP/1,30')
-      Dial('ZAP/1', 30)
+- No special processing of arguments is done. In particular, The following
+  produce the same output:
 
+    Dial('ZAP/1,30')
+    Dial('ZAP/1', 30)
 
+- +context+, +ext+, etc. do not return objects (+app+ returns the priority,
+  though), so it's not possible to keep a reference to a context and add
+  extensions to it after creating a new context.
+
+== Advanced Usage
+You can also use radp as a library, in which case it behaves a little
+differently (because it is not wrapped in an instance_eval). Simply treat it as
+a library and it will work as expected.
+
+== License
 Copyright (C) 2005  Hans Fugal
-Please read LICENSE
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA

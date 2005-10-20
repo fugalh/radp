@@ -1,0 +1,2 @@
+- Maybe contexts, extensions, etc. should be their own objects so that you can
+  add to them later (after creating a new context)
