@@ -11,7 +11,7 @@ This program/library creates Asterisk dialplans from ruby code.
 
 == Usage
   radp extensions.radp > extensions.conf
-  asterisk -x "extensions reload"
+  asterisk -rx "extensions reload"
 
 == Example
   :include:examples/simple.radp
