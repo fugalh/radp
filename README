@@ -51,6 +51,9 @@ You can also use radp as a library, in which case it behaves a little
 differently (because it is not wrapped in an instance_eval). Simply treat it as
 a library and it will work as expected.
 
+== GitHub
+http://github.com/fugalh/radp
+
 == License
 Copyright (C) 2005  Hans Fugal
 
